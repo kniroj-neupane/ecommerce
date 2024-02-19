@@ -1,5 +1,16 @@
+<!-- App.vue -->
 <template>
-  <h1 class="bg-purple-500">
-    Hello world!
-  </h1>
+  <div>
+    <router-view></router-view>
+  </div>
 </template>
+
+<script>
+export default {
+  name: 'App',
+};
+</script>
+
+<style>
+/* Add your styles here if needed */
+</style>
