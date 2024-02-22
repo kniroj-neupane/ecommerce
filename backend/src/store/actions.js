@@ -9,3 +9,12 @@ export function login({commit},data)
             return data;
         })
 }
+
+export function logout({commit})
+{
+    return axiosClient.post('/logout')
+        .then((response)=>{
+            commit('setToken',null)
+            return response;
+        })
+}

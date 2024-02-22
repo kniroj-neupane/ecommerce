@@ -30,9 +30,22 @@ class AuthController extends Controller
             ],403);
         }
         $token = $user->createToken('main')->plainTextToken;
-        return response([
-            'user' => new UserResource($user),
-            'token' => $token
-        ]);
+        if(Auth::attempt($credentials,$remember)){
+            return response([
+                'user' => new UserResource($user),
+                'token' => $token
+            ]);
+        }
+        
+    }
+
+    public function logout()
+    {
+        $user = Auth::user();
+        if($user)
+        $user->currentAccessToken()->delete();
+        else
+            return response('',204);
+        return response('', 204);
     }
 }

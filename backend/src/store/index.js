@@ -5,15 +5,10 @@ import * as mutations from './mutations.js';
 
 const store = createStore({
     state:  {
-        user:{
-            token: null,
-            email: '',
-            password: '',
-            remember: false,
-            data: {
-                name: 'niroj'
-            }
-        }
+        user: {
+            token: sessionStorage.getItem('TOKEN'),
+            data: {}
+          },
 
     },
     getters:  {},
