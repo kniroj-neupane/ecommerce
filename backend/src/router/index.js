@@ -1,7 +1,7 @@
 // src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router';
 import AppLayout from '../components/AppLayout.vue';
-import Products from '../views/Products.vue';
+import Products from '../views/Products/Products.vue';
 import Dashboard from '../views/Dashboard.vue';
 import Login from '../views/Login.vue';
 import RequestPassword from '../views/RequestPassword.vue';
