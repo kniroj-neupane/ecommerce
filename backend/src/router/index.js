@@ -6,7 +6,8 @@ import Dashboard from '../views/Dashboard.vue';
 import Login from '../views/Login.vue';
 import RequestPassword from '../views/RequestPassword.vue';
 import ResetPassword from '../views/ResetPassword.vue';
-import store from '../store'
+import ProductForm from '../views/Products/ProductForm.vue';
+import store from '../store';
 
 const routes = [
   { 
@@ -27,6 +28,19 @@ const routes = [
         path: 'products',
         name: 'app.products',
         component: Products
+      },
+      {
+        path: 'products/:id',
+        name: 'app.products.edit',
+        component: ProductForm,
+        props: {
+          id: (value) => /^\d+$/.test(value)
+        }
+      },
+      {
+        path: 'products/create',
+        name: 'app.products.create',
+        component: ProductForm
       }
     ]
   },

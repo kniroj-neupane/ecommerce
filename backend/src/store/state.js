@@ -1,15 +1,17 @@
-export default{
+export const state = {
     user: {
-        token: sessionStorage.getItem('TOKEN'),
-        data: {}
+      token: sessionStorage.getItem('TOKEN'),
+      data: {}
     },
     products: {
-        data: [],
-        links: [],
-        from: null,
-        to: null,
-        page: 1,
-        limit: null,
-        total: null
-      },
-}
+      loading: false,
+      data: [],
+      links: [],
+      from: null,
+      to: null,
+      page: 1,
+      limit: null,
+      total: null
+    }
+  };
+  
