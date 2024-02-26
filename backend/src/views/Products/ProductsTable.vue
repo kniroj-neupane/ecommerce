@@ -12,11 +12,11 @@
                     <option value="50">50</option>
                     <option value='100'>100</option>
                 </select>
-                <span class="ml-3">Found {{products.total}} products</span>
+                <span class="ml-3">Found {{ products.total }} products</span>
             </div>
             <div>
                 <input @change="getProducts(null)" v-model="search"
-                    class="appearance-none relative block w-48 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    class="appearance-none relative block w-48 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm"
                     placeholder="Type to Search products">
             </div>
         </div>
@@ -54,24 +54,23 @@
             </tr>
         </thead>
         <!-- table body -->
-        <div v-if="products.loading">Loading...</div>
-        <tbody v-else-if="products.data.length == 0">
+        <tbody v-if="products.data.length == 0">
             <tr>
                 <td colspan="6">
-                    <Spinner v-if="products.loading"/>
-                    <p class="text-center">
+                    <Spinner v-if="products.loading" text="Looking For Products" />
+                    <p v-else class="text-center">
                         There are no products.
                     </p>
                 </td>
             </tr>
         </tbody>
         <tbody v-else>
-            
+
             <tr v-for="(product, index) of products.data" :key="index">
                 <td class="border-b p-2">{{ product.id }}</td>
                 <td class="border-b p-2">
                     <img v-if="product.image_url" class="w-16 h-16 object-cover" :src="product.image_url"
-                    :alt="product.title">
+                        :alt="product.title">
                     <img v-else class="w-16 h-16 object-cover" src="../../assets/no_img.png">
                 </td>
                 <td class="border-b p-2">{{ product.title }}</td>
@@ -81,10 +80,9 @@
                 <td class="border-b p-2">
                     <Menu as="div" class="relative inline-block text-left">
                         <MenuButton
-  class="inline-flex items-center justify-center w-10 h-10 bg-black bg-opacity-0 text-sm font-medium text-white hover:bg-opacity-5 focus:bg-opacity-5 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
->
-  <EllipsisVerticalIcon class="h-5 w-5 text-indigo-500" aria-hidden="true" />
-</MenuButton>
+                            class="inline-flex items-center justify-center w-10 h-10 bg-black bg-opacity-0 text-sm font-medium text-white hover:bg-opacity-5 focus:bg-opacity-5 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                            <EllipsisVerticalIcon class="h-5 w-5 text-indigo-500" aria-hidden="true" />
+                        </MenuButton>
 
                         <transition enter-active-class="transition duration-100 ease-out"
                             enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100"
@@ -131,7 +129,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted,computed } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import TableHeaderCell from '../../components/core/Tables/TableHeaderCell.vue';
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import Spinner from "../../components/core/Spinner.vue";
@@ -176,14 +174,14 @@ function getProducts(url = null) {
 
 }
 function deleteProduct(product) {
-  if (!confirm(`Are you sure you want to delete the product?`)) {
-    return
-  }
-  store.dispatch('deleteProduct', product.id)
-    .then(res => {
-      store.commit('showToast', 'Product was successfully deleted');
-      store.dispatch('getProducts')
-    })
+    if (!confirm(`Are you sure you want to delete the product?`)) {
+        return
+    }
+    store.dispatch('deleteProduct', product.id)
+        .then(res => {
+            store.commit('showToast', 'Product was successfully deleted');
+            store.dispatch('getProducts')
+        })
 }
 
 

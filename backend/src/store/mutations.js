@@ -13,7 +13,6 @@ export function setUser(state, user) {
 
   export function setProducts(state, [loading, data = null]) {
     if (data) {
-      console.log('Received Data:', data);
       state.products = {
         ...state.products,
         data: [...data.data], // Ensure a new array to trigger reactivity

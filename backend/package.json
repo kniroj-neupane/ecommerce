@@ -9,8 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^41.1.0",
+    "sortablejs-vue3": "^1.2.11",
+    "uuid": "^9.0.1",
     "vue": "^3.4.15",
     "vue-router": "^4.0.13",
+    "vue3-treeselect": "^0.1.10",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
