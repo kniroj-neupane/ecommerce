@@ -19,9 +19,13 @@ export function logout({commit})
         })
 }
 
-export function getProducts({commit, state}, {url = null, search = '', per_page, sort_field, sort_direction} = {}) {
+export function getProducts({commit, state}, {productId,url = null, search = '', per_page, sort_field, sort_direction} = {}) {
   commit('setProducts', [true])
-  url = url || '/products'
+  console.log(productId);
+  if(productId)
+  url = url || `/products/${productId}`
+  else 
+  url = url ||'/products'
   const params = {
     per_page: state.products.limit,
   }
@@ -32,7 +36,9 @@ export function getProducts({commit, state}, {url = null, search = '', per_page,
     }
   })
     .then((response) => {
+      console.log("response is " + response)
       commit('setProducts', [false, response.data])
+
     })
     .catch(() => {
       commit('setProducts', [false])

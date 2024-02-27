@@ -46,7 +46,7 @@
   </template>
   
   <script setup>
-  import {onMounted, ref} from 'vue'
+  import {onMounted, ref,computed} from 'vue'
   import CustomInput from "../../components/core/CustomInput.vue";
   import store from "../../store/index.js";
   import Spinner from "../../components/core/Spinner.vue";
@@ -54,9 +54,8 @@
   import ImagePreview from "../../components/ImagePreview.vue";
 
   // import the styles
-  import 'vue3-treeselect/dist/vue3-treeselect.css'
-
-  
+  import 'vue3-treeselect/dist/vue3-treeselect.css';
+  const props = defineProps(['id'])
   const route = useRoute()
   const router = useRouter()
   
@@ -67,27 +66,33 @@
     deleted_images: [],
     image_positions: {},
     description: '',
-    price: null,
-    quantity: null,
+    price: 0,
+    quantity: 0,
     published: false,
     categories: []
   })
   
   const errors = ref({});
   
-  const loading = ref(false)
-  const options = ref([])
+  const loading = ref(false);
+  const options = ref([]);
+  const products = computed(() => store.state.products);
   
   const emit = defineEmits(['update:modelValue', 'close'])
   
   onMounted(() => {
     if (route.params.id) {
       loading.value = true
-      store.dispatch('getProducts', route.params.id)
+      store.dispatch('getProducts', {productId: route.params.id})
         .then((response) => {
           loading.value = false;
-          product.value = response.data
+          product.value = products
+          console.log(products)
         })
+    }
+    else
+    {
+      console.log(route.params)
     }
   
     
@@ -97,6 +102,7 @@
     loading.value = true
     errors.value = {};
     product.value.quantity = product.value.quantity || 0
+    console.log(product.value);
     if (product.value.id) {
       store.dispatch('updateProduct', product.value)
         .then(response => {

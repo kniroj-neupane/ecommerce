@@ -14,7 +14,7 @@
 import ProductsTable from './ProductsTable.vue';
 export default {
     components:{
-        ProductsTable
+        ProductsTable,
     }
 }
 </script>
