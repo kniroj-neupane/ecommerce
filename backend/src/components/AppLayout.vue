@@ -1,13 +1,13 @@
 <template >
-    <div class="min-h-full bg-gray-200 flex">
-      <Sidebar v-if="showSidebar" />
-      <div class="flex-1">
-        <Navbar @toggle-sidebar="toggleSidebar" />
-        <main class="p-6">
+  <div class="min-h-screen bg-gray-200 flex">
+    <Sidebar v-if="showSidebar" />
+    <div class="flex-1 flex flex-col">
+      <Navbar @toggle-sidebar="toggleSidebar" />
+      <main class="p-6">
         <router-view></router-view>
       </main>
-      </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -32,6 +32,4 @@ export default {
 };
 
 </script>
-<style >
-    
-</style>
+<style ></style>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Product;
+use App\Models\Api\Product;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\ProductListResource;
 use App\Http\Requests\ProductRequest;
@@ -40,14 +40,17 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $data = $request->validated();
-        $data['created_by'] = $request->user()->id;
-        $data['updated_by'] = $request->user()->id;
+        $data['created_by'] = '1';
+        $data['updated_by'] = '1';
 
         $images = $data['images']??[];
         $imagePositions = $data['image_positions']??[];
 
         $product = Product::create($data);
-        $this->saveImages($images, $imagePositions, $product);
+        if($images != [] && $imagePositions != [])
+        {
+            $this->saveImages($images, $imagePositions, $product);
+        }
 
         return new ProductResource($product);
 
@@ -73,9 +76,7 @@ class ProductController extends Controller
         $images = $data['images'] ?? [];
         $deletedImages = $data['deleted_images'] ?? [];
         $imagePositions = $data['image_positions'] ?? [];
-        $categories = $data['categories'] ?? [];
 
-        $this->saveCategories($categories, $product);
         $this->saveImages($images, $imagePositions, $product);
         if (count($deletedImages) > 0) {
             $this->deleteImages($deletedImages, $product);
@@ -107,7 +108,7 @@ class ProductController extends Controller
         foreach ($images as $id => $image) {
             $path = 'images/' . Str::random();
             if (!Storage::exists($path)) {
-                Storage::makeDirectory($path, 0755, true);
+                Storage::makeDirectory($path);
             }
             $name = Str::random().'.'.$image->getClientOriginalExtension();
             if (!Storage::putFileAS('public/' . $path, $image, $name)) {

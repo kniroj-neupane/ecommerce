@@ -5,7 +5,7 @@
             <div class="flex items-center">
                 <span class="whitespace-nowrap mr-2">Per Page</span>
                 <select @change="getProducts(null)" v-model="perPage"
-                    class="appearance-none relative block w-24 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+                    class="appearance-none relative block w-24 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm">
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="25">25</option>
@@ -81,7 +81,7 @@
                     <Menu as="div" class="relative inline-block text-left">
                         <MenuButton
                             class="inline-flex items-center justify-center w-10 h-10 bg-black bg-opacity-0 text-sm font-medium text-white hover:bg-opacity-5 focus:bg-opacity-5 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-                            <EllipsisVerticalIcon class="h-5 w-5 text-indigo-500" aria-hidden="true" />
+                            <EllipsisVerticalIcon class="h-5 w-5 text-teal-500" aria-hidden="true" />
                         </MenuButton>
 
                         <transition enter-active-class="transition duration-100 ease-out"
@@ -94,20 +94,20 @@
                                 <div class="px-1 py-1">
                                     <MenuItem v-slot="{ active }">
                                     <router-link :to="{ name: 'app.products.edit', params: { id: product.id } }" :class="[
-                                        active ? 'bg-indigo-600 text-white' : 'text-gray-900',
+                                        active ? 'bg-teal-600 text-white' : 'text-gray-900',
                                         'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                                     ]">
-                                        <PencilIcon :active="active" class="mr-2 h-5 w-5 text-indigo-400"
+                                        <PencilIcon :active="active" class="mr-2 h-5 w-5 text-teal-400"
                                             aria-hidden="true" />
                                         Edit
                                     </router-link>
                                     </MenuItem>
                                     <MenuItem v-slot="{ active }">
                                     <button :class="[
-                                        active ? 'bg-indigo-600 text-white' : 'text-gray-900',
+                                        active ? 'bg-teal-600 text-white' : 'text-gray-900',
                                         'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                                     ]" @click="deleteProduct(product)">
-                                        <TrashIcon :active="active" class="mr-2 h-5 w-5 text-indigo-400"
+                                        <TrashIcon :active="active" class="mr-2 h-5 w-5 text-teal-400"
                                             aria-hidden="true" />
                                         Delete
                                     </button>
@@ -179,7 +179,6 @@ function deleteProduct(product) {
     }
     store.dispatch('deleteProduct', product.id)
         .then(res => {
-            store.commit('showToast', 'Product was successfully deleted');
             store.dispatch('getProducts')
         })
 }

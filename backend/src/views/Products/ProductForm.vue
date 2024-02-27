@@ -1,4 +1,3 @@
-<!-- This example requires Tailwind CSS v2.0+ -->
 <template>
     <div class="flex items-center justify-between mb-3">
       <h1 v-if="!loading" class="text-3xl font-semibold">
@@ -12,11 +11,10 @@
         <div class="grid grid-cols-3">
           <div class="col-span-2 px-4 pt-5 pb-4">
             <CustomInput class="mb-2" v-model="product.title" label="Product Title" :errors="errors['title']"/>
-            <CustomInput type="richtext" class="mb-2" v-model="product.description" label="Description" :errors="errors['description']"/>
+            <CustomInput type="text" class="mb-2" v-model="product.description" label="Description" :errors="errors['description']"/>
             <CustomInput type="number" class="mb-2" v-model="product.price" label="Price" prepend="$" :errors="errors['price']"/>
             <CustomInput type="number" class="mb-2" v-model="product.quantity" label="Quantity" :errors="errors['quantity']"/>
             <CustomInput type="checkbox" class="mb-2" v-model="product.published" label="Published" :errors="errors['published']"/>
-            <treeselect v-model="product.categories" :multiple="true" :options="options" :errors="errors['categories']"/>
           </div>
           <div class="col-span-1 px-4 pt-5 pb-4">
             <image-preview v-model="product.images"
@@ -54,11 +52,10 @@
   import Spinner from "../../components/core/Spinner.vue";
   import {useRoute, useRouter} from "vue-router";
   import ImagePreview from "../../components/ImagePreview.vue";
-  // import the component
-  import Treeselect from 'vue3-treeselect'
+
   // import the styles
   import 'vue3-treeselect/dist/vue3-treeselect.css'
-  import axiosClient from "../../axios.js";
+
   
   const route = useRoute()
   const router = useRouter()
@@ -86,30 +83,26 @@
   onMounted(() => {
     if (route.params.id) {
       loading.value = true
-      store.dispatch('getProduct', route.params.id)
+      store.dispatch('getProducts', route.params.id)
         .then((response) => {
           loading.value = false;
           product.value = response.data
         })
     }
   
-    axiosClient.get('/categories/tree')
-      .then(result => {
-        options.value = result.data
-      })
+    
   })
   
   function onSubmit($event, close = false) {
     loading.value = true
     errors.value = {};
-    product.value.quantity = product.value.quantity || null
+    product.value.quantity = product.value.quantity || 0
     if (product.value.id) {
       store.dispatch('updateProduct', product.value)
         .then(response => {
           loading.value = false;
           if (response.status === 200) {
             product.value = response.data
-            store.commit('showToast', 'Product was successfully updated');
             store.dispatch('getProducts')
             if (close) {
               router.push({name: 'app.products'})
@@ -126,7 +119,6 @@
           loading.value = false;
           if (response.status === 201) {
             product.value = response.data
-            store.commit('showToast', 'Product was successfully created');
             store.dispatch('getProducts')
             if (close) {
               router.push({name: 'app.products'})

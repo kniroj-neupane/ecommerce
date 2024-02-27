@@ -40,8 +40,13 @@ const routes = [
       {
         path: 'products/create',
         name: 'app.products.create',
-        component: ProductForm
-      }
+        component: ProductForm,
+        beforeEnter: (to, from, next) => {
+          // Reset any necessary state in the 'ProductForm' component
+          next();
+        },
+      },
+      
     ]
   },
   { 
