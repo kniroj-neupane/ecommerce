@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Api\Product;
-use App\Http\Resources\ProductResource;
-use App\Http\Resources\ProductListResource;
-use App\Http\Requests\ProductRequest;
-use App\Models\ProductImage;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductRequest;
+use App\Http\Resources\ProductListResource;
+use App\Http\Resources\ProductResource;
+use App\Models\Api\Product;
+use App\Models\ProductCategory;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -18,24 +19,29 @@ class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $perPage = request('per_page',10);
-        $search = request('search','');
-        $sortField = request('sort_field','created_at');
-        $sortDirection = request('sort_direction','desc');
+        $perPage = request('per_page', 10);
+        $search = request('search', '');
+        $sortField = request('sort_field', 'created_at');
+        $sortDirection = request('sort_direction', 'desc');
 
         $query = Product::query()
-        ->where('title', 'like', "%{$search}%")
-        ->orderBy($sortField, $sortDirection)
-        ->paginate($perPage);
+            ->where('title', 'like', "%{$search}%")
+            ->orderBy($sortField, $sortDirection)
+            ->paginate($perPage);
 
         return ProductListResource::collection($query);
     }
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
      */
     public function store(ProductRequest $request)
     {
@@ -43,21 +49,23 @@ class ProductController extends Controller
         $data['created_by'] = '1';
         $data['updated_by'] = '1';
 
-        $images = $data['images']??[];
-        $imagePositions = $data['image_positions']??[];
+        /** @var \Illuminate\Http\UploadedFile[] $images */
+        $images = $data['images'] ?? [];
+        $imagePositions = $data['image_positions'] ?? [];
+        $categories = $data['categories'] ?? [];
 
         $product = Product::create($data);
-        if($images != [] && $imagePositions != [])
-        {
-            $this->saveImages($images, $imagePositions, $product);
-        }
+
+        $this->saveImages($images, $imagePositions, $product);
 
         return new ProductResource($product);
-
     }
 
     /**
      * Display the specified resource.
+     *
+     * @param \App\Models\Product $product
+     * @return \Illuminate\Http\Response
      */
     public function show(Product $product)
     {
@@ -66,6 +74,10 @@ class ProductController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Product      $product
+     * @return \Illuminate\Http\Response
      */
     public function update(ProductRequest $request, Product $product)
     {
@@ -89,6 +101,9 @@ class ProductController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param \App\Models\Product $product
+     * @return \Illuminate\Http\Response
      */
     public function destroy(Product $product)
     {
@@ -97,6 +112,16 @@ class ProductController extends Controller
         return response()->noContent();
     }
 
+   
+
+    /**
+     *
+     *
+     * @param UploadedFile[] $images
+     * @return string
+     * @throws \Exception
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     */
     private function saveImages($images, $positions, Product $product)
     {
         foreach ($positions as $id => $position) {
@@ -108,10 +133,10 @@ class ProductController extends Controller
         foreach ($images as $id => $image) {
             $path = 'images/' . Str::random();
             if (!Storage::exists($path)) {
-                Storage::makeDirectory($path);
+                Storage::makeDirectory($path, 0755, true);
             }
             $name = Str::random().'.'.$image->getClientOriginalExtension();
-            if (!Storage::putFileAS('public/' . $path, $image, $name)) {
+            if (!Storage::putFileAs('public/' . $path, $image, $name)) {
                 throw new \Exception("Unable to save file \"{$image->getClientOriginalName()}\"");
             }
             $relativePath = $path . '/' . $name;
