@@ -52,6 +52,7 @@ export function createProduct({commit}, product) {
     form.append('description', product.description || '');
     form.append('published', product.published ? 1 : 0);
     form.append('price', product.price);
+    form.append('quantity', product.quantity);
     product = form;
   }
   return axiosClient.post('/products', product)

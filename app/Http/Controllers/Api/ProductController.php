@@ -112,14 +112,7 @@ class ProductController extends Controller
 
    
 
-    /**
-     *
-     *
-     * @param UploadedFile[] $images
-     * @return string
-     * @throws \Exception
-     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
-     */
+    
     private function saveImages($images, $positions, Product $product)
     {
         foreach ($positions as $id => $position) {
