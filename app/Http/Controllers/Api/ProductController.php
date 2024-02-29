@@ -7,9 +7,7 @@ use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductListResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Api\Product;
-use App\Models\ProductCategory;
 use App\Models\ProductImage;
-use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
@@ -82,7 +80,7 @@ class ProductController extends Controller
     public function update(ProductRequest $request, Product $product)
     {
         $data = $request->validated();
-        $data['updated_by'] = $request->user()->id;
+        $data['updated_by'] = '1';
 
         /** @var \Illuminate\Http\UploadedFile[] $images */
         $images = $data['images'] ?? [];
@@ -133,7 +131,7 @@ class ProductController extends Controller
         foreach ($images as $id => $image) {
             $path = 'images/' . Str::random();
             if (!Storage::exists($path)) {
-                Storage::makeDirectory($path, 0755, true);
+                Storage::makeDirectory($path);
             }
             $name = Str::random().'.'.$image->getClientOriginalExtension();
             if (!Storage::putFileAs('public/' . $path, $image, $name)) {
