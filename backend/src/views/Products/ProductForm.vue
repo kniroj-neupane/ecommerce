@@ -66,8 +66,8 @@
     deleted_images: [],
     image_positions: {},
     description: '',
-    price: 0,
-    quantity: 0,
+    price:'',
+    quantity: '',
     published: false,
     categories: []
   })
