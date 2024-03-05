@@ -1,3 +1,3 @@
 <template>
-    <img src="/storage/images/vipanilight.png" alt="this is logo">
+    <img src="/storage/images/amazin.png" alt="this is logo">
 </template>
