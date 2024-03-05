@@ -23,7 +23,7 @@
             <img :src="product.image_url" :alt="product.title" class="h-full w-full object-cover object-center group-hover:opacity-75" />
           </div>
           <h3 class="mt-4 text-sm text-gray-700">{{ product.title }}</h3>
-          <p class="mt-1 text-lg font-medium text-gray-900">${{ product.price }}</p>
+          <p class="mt-1 text-lg font-medium text-gray-900">$ {{ product.price }}</p>
         </a>
       </div>
     </div>
