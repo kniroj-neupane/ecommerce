@@ -12,7 +12,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\Auth;
 class ProductController extends Controller
 {
     /**
@@ -44,8 +44,8 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $data = $request->validated();
-        $data['created_by'] = '1';
-        $data['updated_by'] = '1';
+        $data['created_by'] = Auth::id() || '1';
+        $data['updated_by'] = Auth::id() || '1';
 
         /** @var \Illuminate\Http\UploadedFile[] $images */
         $images = $data['images'] ?? [];
@@ -80,7 +80,7 @@ class ProductController extends Controller
     public function update(ProductRequest $request, Product $product)
     {
         $data = $request->validated();
-        $data['updated_by'] = '1';
+        $data['updated_by'] = Auth::id() || '1';
 
         /** @var \Illuminate\Http\UploadedFile[] $images */
         $images = $data['images'] ?? [];
