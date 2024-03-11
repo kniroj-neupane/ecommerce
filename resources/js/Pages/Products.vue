@@ -17,9 +17,9 @@
   <div class="bg-white dark:bg-gray-800">
     <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
       <h2 class="sr-only">Products</h2>
-
-      <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-        <a v-for="product in state.products" :key="product.id" class="group">
+      <h2 v-if="products.data.length==0" class="text-teal-900">There are no products</h2>
+      <div v-else class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+        <a v-for="product in products.data" :key="product.id" class="group">
           <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
             <img :src="product.image_url" :alt="product.title"
               class="h-full w-full object-cover object-center group-hover:opacity-75" />
@@ -40,8 +40,10 @@
 </template>
 
 <script setup>
-import { onMounted, reactive } from 'vue';
+import { onMounted, computed } from 'vue';
 import PrimaryButton from '../Components/PrimaryButton.vue';
+import store from '../store';
+const products = computed(() => store.state.products);
 const products1 = [
   {
     id: 1,
@@ -77,20 +79,16 @@ const products1 = [
   },
   // More products...
 ]
-const state = reactive({
-  products: [],
-  cartItems:[],
-});
+
 onMounted(() => {
-  axios.get('api/products')
-    .then(response => {
-      console.log(response.data.data);
-      state.products = response.data.data;
-    })
+  getProducts()
 })
-function addToCart(product){
+function getProducts(){
+  store.dispatch("getProducts")
+}
+function addToCart(product) {
   state.cartItems.push(product);
   console.log(state.cartItems);
-  
+
 }
 </script>
