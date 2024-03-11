@@ -21,7 +21,6 @@ export function logout({commit})
 
 export function getProducts({commit, state}, {productId,url = null, search = '', per_page, sort_field, sort_direction} = {}) {
   commit('setProducts', [true])
-  console.log(productId);
   if(productId)
   url = url || `/products/${productId}`
   else 
