@@ -44,6 +44,7 @@ import { onMounted, computed } from 'vue';
 import PrimaryButton from '../Components/PrimaryButton.vue';
 import store from '../store';
 const products = computed(() => store.state.products);
+const quantity = 1;
 const products1 = [
   {
     id: 1,
@@ -87,8 +88,7 @@ function getProducts(){
   store.dispatch("getProducts")
 }
 function addToCart(product) {
-  state.cartItems.push(product);
-  console.log(state.cartItems);
-
+  store.dispatch('createCart',{product,quantity});
 }
 </script>
+

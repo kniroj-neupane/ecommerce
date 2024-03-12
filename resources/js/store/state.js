@@ -8,6 +8,10 @@ export const state = {
       page: 1,
       limit: null,
       total: null
+    },
+    cartItems: {
+      data: [],
+      loading: false,
     }
   };
   

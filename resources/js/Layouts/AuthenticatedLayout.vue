@@ -30,7 +30,7 @@ const showingNavigationDropdown = ref(false);
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
-                            <a :href="route('dashboard')"
+                            <a :href="route('cart')"
                                 class="relative inline-flex items-center py-2 px-2 hover:bg-teal-900 text-white mr-5">
                                 <ShoppingCart></ShoppingCart>
                                 Cart
@@ -95,7 +95,7 @@ const showingNavigationDropdown = ref(false);
                         <div class="mt-3 space-y-1">
                             <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
                             
-                            <ResponsiveNavLink :href="route('logout')" method="post" as="button">
+                            <ResponsiveNavLink :href="route('cart')" method="get" as="button">
                                 My Cart
                             </ResponsiveNavLink>
                             <ResponsiveNavLink :href="route('logout')" method="post" as="button">
