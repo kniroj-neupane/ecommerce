@@ -17,12 +17,14 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import CartItems from './CartItems.vue';
+import store from '../store';
 export default {
     props: {
         cartItems: Object,
+        products: Object,
     },
     mounted() {
-        console.log(this.cartItems);
+        store.dispatch('setCartItems', { cartItems: this.cartItems, products: this.products });
     },
     components: {
         Head,
