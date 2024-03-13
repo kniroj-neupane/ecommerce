@@ -17,6 +17,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import CartItems from './CartItems.vue';
+import Products from './Products.vue';
 import store from '../store';
 export default {
     props: {
@@ -28,8 +29,8 @@ export default {
     },
     components: {
         Head,
-        CartItems,
         AuthenticatedLayout,
+        CartItems,
     },
 };
 </script>
