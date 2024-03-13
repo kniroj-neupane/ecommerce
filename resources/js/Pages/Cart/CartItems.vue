@@ -62,7 +62,7 @@
 
 <script setup>
 import { computed } from 'vue';
-import store from '../store';
+import store from '../../store';
 
 const cartItems = computed(() => store.state.cartItems);
 

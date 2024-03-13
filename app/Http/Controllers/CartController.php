@@ -19,7 +19,7 @@ class CartController extends Controller
         $cartItems = $query->get();
         $ids = Arr::pluck($cartItems, 'product_id');
         $products = Product::query()->whereIn('id', $ids)->get();
-        return Inertia::render('Cart',[
+        return Inertia::render('Cart/Cart',[
             'cartItems' => CartItemsListResource::collection($cartItems),
             'products' => ProductListResource::collection($products),
         ]);
