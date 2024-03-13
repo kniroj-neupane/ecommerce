@@ -80,7 +80,7 @@ class ProductController extends Controller
     public function update(ProductRequest $request, Product $product)
     {
         $data = $request->validated();
-        $data['updated_by'] = Auth::id() || '1';
+        $data['updated_by'] = $request->user() || '1';
 
         /** @var \Illuminate\Http\UploadedFile[] $images */
         $images = $data['images'] ?? [];

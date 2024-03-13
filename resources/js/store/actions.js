@@ -12,7 +12,7 @@ export function createCart({commit,state},{product,quantity}){
         form.append('quantity',quantity?quantity:1)
         product = form
     }
-    // return axios.post('cart',product)
+    return axios.post('cart',product)
 }
 export function setCartItems({ commit }, { cartItems, products }) {
     
