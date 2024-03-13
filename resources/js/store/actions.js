@@ -37,4 +37,6 @@ export function setCartItems({ commit }, { cartItems, products }) {
   
     commit('setCartItems', [false, { data: updatedCartItems }]);
   }
-  
+  export function getCartCount(){
+    return axios.get('/cart/count');
+  }

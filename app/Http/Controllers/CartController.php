@@ -77,4 +77,12 @@ class CartController extends Controller
             ],201);
         } 
     }
+    public function count(Request $request)
+    {
+        $user = $request->user();
+        $count = CartItems::where('user_id',$user->id)->count();
+        return response([
+            'count' => $count
+        ],200);
+    }
 }

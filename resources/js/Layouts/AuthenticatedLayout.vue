@@ -7,7 +7,20 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
 import ShoppingCart from '../Components/ShoppingCart.vue';
-import {ShoppingCartIcon} from '@heroicons/vue/24/solid'
+import {ShoppingCartIcon} from '@heroicons/vue/24/solid';
+import store from '../store';
+const cartCount = ref(0);
+function getCartItemsCount(){
+    store.dispatch('getCartCount')
+  .then(response => {
+    console.log('Response:', response.data.count);
+    cartCount.value = response.data.count;
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+  return cartCount;
+}
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -35,7 +48,7 @@ const showingNavigationDropdown = ref(false);
                                 <ShoppingCart></ShoppingCart>
                                 Cart
                                 <small
-                                    class="absolute z-[100] top-0 -right-4 py-[2px] px-[8px] rounded-full bg-red-500">1</small>
+                                    class="absolute z-[100] top-0 -right-4 py-[2px] px-[8px] rounded-full bg-red-500">{{ getCartItemsCount() }}</small>
                             </a>
                             <!-- Settings Dropdown -->
                             <div class="ms-3 relative">
