@@ -7,8 +7,7 @@
             <p>Your cart is empty.</p>
         </div>
         <div v-else class="mt-8">
-            <div>
-                <ul role="list" class="-my-6 divide-y divide-gray-200">
+                <ul role="list" class="-my-6 divide-y divide-gray-300">
                     <li v-for="product in cartItems.data" :key="product.id" class="flex justify-around py-6">
                         <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                             <img :src="product.imageUrl" :alt="product.title"
@@ -16,26 +15,22 @@
                         </div>
 
                         <div class="ml-4 flex justify-center flex-1 flex-col">
-                            <div>
-                                <div
-                                    class="flex justify-between text-base font-medium text-gray-900 dark:text-gray-200">
-                                    <h3>
-                                        <a>{{ product.title }}</a>
-                                    </h3>
-                                    <p class="ml-4">$ {{ product.price }}</p>
-                                </div>
+                            <div class="flex justify-between text-base font-medium text-gray-900 dark:text-gray-200">
+                                <h3>
+                                    <a>{{ product.title }}</a>
+                                </h3>
+                                <p class="ml-4">$ {{ product.price }}</p>
                             </div>
-                            <div class="flex flex-1 items-end justify-between text-sm">
+                            <div class="flex flex-1 items-center justify-between">
                                 <p class="text-gray-500">Qty {{ product.quantity }}</p>
                                 <div class="flex">
-                                    <button type="button"
+                                    <button type="button" @click="removeCartItem(product)"
                                         class="font-medium text-teal-600 hover:text-teal-500">Remove</button>
                                 </div>
                             </div>
                         </div>
                     </li>
                 </ul>
-            </div>
         </div>
     </div>
     <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
@@ -51,10 +46,10 @@
         <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
             <p>
                 or{{ ' ' }}
-                <button type="button" class="font-medium text-teal-600 hover:text-teal-500">
+                <a :href="route('dashboard')" class="font-medium text-teal-600 hover:text-teal-500">
                     Continue Shopping
                     <span aria-hidden="true"> &rarr;</span>
-                </button>
+                </a>
             </p>
         </div>
     </div>
@@ -75,4 +70,7 @@ const calculateSubtotal = () => {
     });
     return total;
 };
+function removeCartItem(cartItem){
+    store.dispatch('removeCartItem',cartItem)
+}
 </script>

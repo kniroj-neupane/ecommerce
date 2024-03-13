@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export function getProducts({commit,state}){
     return axios.get('api/products')
     .then(response => {
@@ -36,7 +38,17 @@ export function setCartItems({ commit }, { cartItems, products }) {
     console.log(updatedCartItems);
   
     commit('setCartItems', [false, { data: updatedCartItems }]);
-  }
-  export function getCartCount(){
+}
+export function getCartCount(){
     return axios.get('/cart/count');
-  }
+}
+export function removeCartItem({commit,state},cartItem){
+  
+  return axios.delete(`/cart/${cartItem.id}`) 
+    .then(response=>{
+      commit('removeCartItem',response.id)
+    })
+    .catch(error=>{
+      console.error(error)
+    })
+}

@@ -85,4 +85,23 @@ class CartController extends Controller
             'count' => $count
         ],200);
     }
+    public function destroy($id,Request $request)
+    {
+        $user = $request->user();
+        if($user){
+            $cartItem = CartItems::where(['user_id'=>$user->id, 'id'=>$id])->first();
+            if($cartItem){
+                $cartItem->delete();
+                return response([
+                    'message' => 'Deleted item from cart',
+                    'id' => $id,
+                ]);
+            }
+            else{
+                return response([
+                    'message' => 'Could not find cart item'
+                ],404);
+            }
+        }
+    }
 }

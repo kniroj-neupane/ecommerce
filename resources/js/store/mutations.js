@@ -22,3 +22,11 @@ export function setCartItems(state,[loading,data=null]){
   }
   state.cartItems.loading = loading;
 }
+export function removeCartItem(state,deletedItemId){
+  const index = state.cartItems.findIndex(item => item.id === deletedItemId);
+
+  if (index !== -1) {
+    // Remove the deleted item from the cartItems array
+    state.cartItems.splice(index, 1);
+  }
+}
