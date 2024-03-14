@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $query = CartItems::query();
-
+        $user = $request->user();
+        $query = CartItems::where("user_id", $user->id);
         $cartItems = $query->get();
         $ids = Arr::pluck($cartItems->toArray(), 'product_id');
         $products = Product::query()->whereIn('id', $ids)->get();
