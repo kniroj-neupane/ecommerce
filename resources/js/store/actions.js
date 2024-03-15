@@ -35,7 +35,6 @@ export function setCartItems({ commit }, { cartItems, products }) {
       };
     });
   
-    console.log(updatedCartItems);
   
     commit('setCartItems', [false, { data: updatedCartItems }]);
 }
@@ -43,10 +42,9 @@ export function getCartCount(){
     return axios.get('/cart/count');
 }
 export function removeCartItem({commit,state},cartItem){
-  
   return axios.delete(`/cart/${cartItem.id}`) 
     .then(response=>{
-      commit('removeCartItem',response.id)
+      commit('removeCartItem',cartItem.id)
     })
     .catch(error=>{
       console.error(error)

@@ -92,10 +92,7 @@ class CartController extends Controller
             $cartItem = CartItems::where(['user_id'=>$user->id, 'id'=>$id])->first();
             if($cartItem){
                 $cartItem->delete();
-                return response([
-                    'message' => 'Deleted item from cart',
-                    'id' => $id,
-                ]);
+                return response()->noContent();
             }
             else{
                 return response([

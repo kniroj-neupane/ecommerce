@@ -61,7 +61,6 @@ import store from '../../store';
 
 const cartItems = computed(() => store.state.cartItems);
 
-// Calculate total cost of items in the cart not working
 const calculateSubtotal = () => {
     let total = 0;
     store.state.cartItems.data.forEach(item => {
