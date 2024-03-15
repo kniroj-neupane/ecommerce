@@ -32,4 +32,4 @@ export default {
         CartItems,
     },
 };
-</script>../../store
+</script>
