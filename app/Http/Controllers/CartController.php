@@ -25,6 +25,22 @@ class CartController extends Controller
             'products' => ProductListResource::collection($products),
         ]);
     }
+    public function get(Request $request)
+    {
+        $user =  $request->user();
+        $query = CartItems::where("user_id",$user->id);
+        $cartItems = $query->get();
+        $ids = Arr::pluck($cartItems->toArray(),'product_id');
+        $products = Product::query()->whereIn('id',$ids)->get();
+        return response([
+            'message' => 'Success retrieving cart items',
+            'data' => [
+                'cartItems' => $cartItems,
+                'products' => $products,
+            ],
+        ]);
+
+    }
     public function store(Request $request)
     {
         $user = $request->user();
