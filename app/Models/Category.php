@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use App\Models\CategoryImage;
 
 class Category extends Model
 {
@@ -22,56 +23,70 @@ class Category extends Model
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
     }
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
+    public function images()
+    {
+        return $this->hasMany(CategoryImage::class)->orderBy('position');
+    }
+
+    public function getImageAttribute()
+    {
+        return $this->images->count() > 0 ? $this->images->get(0)->url : null;
+    }
     public function parent()
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function products()
-    {
-        return $this->belongsToMany(Product::class); // product_category
-    }
 
-    public static function getActiveAsTree($resourceClassName = null)
-    {
-        $categories = Category::where('active', true)->orderBy('parent_id')->get();
-        return self::buildCategoryTree($categories, null, $resourceClassName);
-    }
+    // public function products()
+    // {
+    //     return $this->belongsToMany(Product::class); // product_category
+    // }
 
-    public static function getAllChildrenByParent(Category $category)
-    {
-        $categories = Category::where('active', true)->orderBy('parent_id')->get();
-        $result[] = $category;
-        self::getCategoriesArray($categories, $category->id, $result);
+    // public static function getActiveAsTree($resourceClassName = null)
+    // {
+    //     $categories = Category::where('active', true)->orderBy('parent_id')->get();
+    //     return self::buildCategoryTree($categories, null, $resourceClassName);
+    // }
 
-        return $result;
-    }
+    // public static function getAllChildrenByParent(Category $category)
+    // {
+    //     $categories = Category::where('active', true)->orderBy('parent_id')->get();
+    //     $result[] = $category;
+    //     self::getCategoriesArray($categories, $category->id, $result);
 
-    private static function buildCategoryTree($categories, $parentId = null, $resourceClassName = null)
-    {
-        $categoryTree = [];
+    //     return $result;
+    // }
 
-        foreach ($categories as $category) {
-            if ($category->parent_id === $parentId) {
-                $children = self::buildCategoryTree($categories, $category->id, $resourceClassName);
-                if ($children) {
-                    $category->setAttribute('children', $children);
-                }
-                $categoryTree[] = $resourceClassName ? new $resourceClassName($category) : $category;
-            }
-        }
+    // private static function buildCategoryTree($categories, $parentId = null, $resourceClassName = null)
+    // {
+    //     $categoryTree = [];
 
-        return $categoryTree;
-    }
+    //     foreach ($categories as $category) {
+    //         if ($category->parent_id === $parentId) {
+    //             $children = self::buildCategoryTree($categories, $category->id, $resourceClassName);
+    //             if ($children) {
+    //                 $category->setAttribute('children', $children);
+    //             }
+    //             $categoryTree[] = $resourceClassName ? new $resourceClassName($category) : $category;
+    //         }
+    //     }
 
-    private static function getCategoriesArray($categories, $parentId, &$result)
-    {
-        foreach ($categories as $category) {
-            if ($category->parent_id === $parentId) {
-                $result[] = $category;
-                self::getCategoriesArray($categories, $category->id, $result);
-            }
-        }
-    }
+    //     return $categoryTree;
+    // }
+
+    // private static function getCategoriesArray($categories, $parentId, &$result)
+    // {
+    //     foreach ($categories as $category) {
+    //         if ($category->parent_id === $parentId) {
+    //             $result[] = $category;
+    //             self::getCategoriesArray($categories, $category->id, $result);
+    //         }
+    //     }
+    // }
 }

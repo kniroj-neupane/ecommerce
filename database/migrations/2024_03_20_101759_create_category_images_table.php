@@ -12,9 +12,9 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('product_images', function (Blueprint $table) {
+        Schema::create('category_images', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained('products');
+            $table->foreignId('category_id')->constrained('categories');
             $table->string('path', 255);
             $table->string('url', 255);
             $table->string('mime', 55);
@@ -23,11 +23,11 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        DB::table('products')
-            ->chunkById(100, function (Collection $products) {
-                $products = $products->map(function ($p) {
+        DB::table('categories')
+            ->chunkById(100, function (Collection $categories) {
+                $categories = $categories->map(function ($p) {
                     return [
-                        'product_id' => $p->id,
+                        'category_id' => $p->id,
                         'path' => '',
                         'url' => $p->image,
                         'mime' => $p->image_mime,
@@ -38,11 +38,11 @@ return new class extends Migration {
                     ];
                 });
 
-                DB::table('product_images')->insert($products->all());
+                DB::table('category_images')->insert($categories->all());
 
             });
 
-        Schema::table('products', function (Blueprint $table) {
+        Schema::table('categories', function (Blueprint $table) {
             $table->dropColumn('image');
             $table->dropColumn('image_mime');
             $table->dropColumn('image_size');
@@ -54,23 +54,23 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
+        Schema::table('categories', function (Blueprint $table) {
             $table->string('image', 2000)->nullable()->after('slug');
             $table->string('image_mime')->nullable()->after('image');
             $table->integer('image_size')->nullable()->after('image_mime');
         });
 
-        DB::table('products')
+        DB::table('categories')
             ->select('id')
-            ->chunkById(100, function (Collection $products) {
-                foreach ($products as $product) {
-                    $image = DB::table('product_images')
-                        ->select(['product_id', 'url', 'mime', 'size'])
-                        ->where('product_id', $product->id)
+            ->chunkById(100, function (Collection $categories) {
+                foreach ($categories as $category) {
+                    $image = DB::table('category_images')
+                        ->select(['category_id', 'url', 'mime', 'size'])
+                        ->where('category_id', $category->id)
                         ->first();
                     if ($image) {
-                        DB::table('products')
-                            ->where('id', $image->product_id)
+                        DB::table('categories')
+                            ->where('id', $image->category_id)
                             ->update([
                                 'image' => $image->url,
                                 'image_mime' => $image->mime,
