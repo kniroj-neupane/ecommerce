@@ -33,9 +33,9 @@
                 <TableHeaderCell field="image" :sort-field="sortField" :sort-direction="sortDirection">
                     Image
                 </TableHeaderCell>
-                <TableHeaderCell field="title" :sort-field="sortField" :sort-direction="sortDirection"
-                    @click="sortProducts('title')">
-                    Title
+                <TableHeaderCell field="name" :sort-field="sortField" :sort-direction="sortDirection"
+                    @click="sortProducts('name')">
+                    Name
                 </TableHeaderCell>
                 <TableHeaderCell field="updated_at" :sort-field="sortField" :sort-direction="sortDirection"
                     @click="sortProducts('updated_at')">
@@ -62,10 +62,10 @@
                 <td class="border-b p-2">{{ category.id }}</td>
                 <td class="border-b p-2">
                     <img v-if="category.image_url" class="w-16 h-16 object-cover" :src="category.image_url"
-                        :alt="category.title">
+                        :alt="category.name">
                     <img v-else class="w-16 h-16 object-cover" src="../../assets/no_img.png">
                 </td>
-                <td class="border-b p-2">{{ category.title }}</td>
+                <td class="border-b p-2">{{ category.name }}</td>
                 <td class="border-b p-2">{{ category.updated_at }}</td>
                 <td class="border-b p-2">
                     <Menu as="div" class="relative inline-block text-left">

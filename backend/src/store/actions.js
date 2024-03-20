@@ -88,14 +88,14 @@ export function deleteProduct({commit},id)
 }
 
 // categories
-export function getCategories({commit, state}, {productId,url = null, search = '', per_page, sort_field, sort_direction} = {}) {
+export function getCategories({commit, state}, {categoryId,url = null, search = '', per_page, sort_field, sort_direction} = {}) {
   commit('setCategories', [true])
-  if(productId)
-  url = url || `/categories/${productId}`
+  if(categoryId)
+  url = url || `/categories/${categoryId}`
   else 
   url = url ||'/categories'
   const params = {
-    per_page: state.products.limit,
+    per_page: state.categories.limit,
   }
   return axiosClient.get(url, {
     params: {
@@ -104,7 +104,7 @@ export function getCategories({commit, state}, {productId,url = null, search = '
     }
   })
     .then((response) => {
-      console.log("response is " + response)
+      console.log("response is ",response.data)
       commit('setCategories', [false, response.data])
 
     })

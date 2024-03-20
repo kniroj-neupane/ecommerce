@@ -17,7 +17,8 @@ class CategoryController extends Controller
         $sortField = request("sortField","updated_at");
         $sortDirection = request("sortDirection","desc");
         $query = Category::query()
-            ->orderBy($sortField,$sortDirection);
+            ->orderBy($sortField,$sortDirection)
+            ->paginate(100);
         return CategoryResource::collection($query);
     }
 
