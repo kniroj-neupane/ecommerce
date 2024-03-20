@@ -91,9 +91,9 @@ export function deleteProduct({commit},id)
 export function getCategories({commit, state}, {productId,url = null, search = '', per_page, sort_field, sort_direction} = {}) {
   commit('setCategories', [true])
   if(productId)
-  url = url || `/products/${productId}`
+  url = url || `/categories/${productId}`
   else 
-  url = url ||'/products'
+  url = url ||'/categories'
   const params = {
     per_page: state.products.limit,
   }

@@ -8,6 +8,7 @@ import Login from '../views/Login.vue';
 import RequestPassword from '../views/RequestPassword.vue';
 import ResetPassword from '../views/ResetPassword.vue';
 import ProductForm from '../views/Products/ProductForm.vue';
+import CategoryForm from '../views/Categories/CategoryForm.vue';
 import store from '../store';
 
 const routes = [
@@ -51,6 +52,15 @@ const routes = [
         path: 'categories',
         name: 'app.categories',
         component: Categories
+      },
+      {
+        path: 'categories/create',
+        name: 'app.categories.create',
+        component: CategoryForm,
+        beforeEnter: (to, from, next) => {
+          // Reset any necessary state in the 'ProductForm' component
+          next();
+        },
       },
       
     ]

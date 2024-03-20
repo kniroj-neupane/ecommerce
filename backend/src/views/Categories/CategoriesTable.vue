@@ -49,9 +49,9 @@
         <tbody v-if="categories.data.length == 0">
             <tr>
                 <td colspan="6">
-                    <Spinner v-if="categories.loading" text="Looking For Products" />
+                    <Spinner v-if="categories.loading" text="Looking For Categories" />
                     <p v-else class="text-center">
-                        There are no products.
+                        There are no categories.
                     </p>
                 </td>
             </tr>
