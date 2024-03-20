@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('slug');
             $table->boolean('active');
             $table->foreignId('parent_id')->nullable()->constrained('categories');
+            $table->string('image',2000)->nullable();
+            $table->string('image_mime')->nullable();
+            $table->string('image_size')->nullable();
             $table->foreignIdFor(\App\Models\User::class, 'created_by');
             $table->foreignIdFor(\App\Models\User::class, 'updated_by');
             $table->timestamp('deleted_at')->nullable();
