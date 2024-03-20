@@ -2,6 +2,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import AppLayout from '../components/AppLayout.vue';
 import Products from '../views/Products/Products.vue';
+import Categories from '../views/Categories/Categories.vue';
 import Dashboard from '../views/Dashboard.vue';
 import Login from '../views/Login.vue';
 import RequestPassword from '../views/RequestPassword.vue';
@@ -45,6 +46,11 @@ const routes = [
           // Reset any necessary state in the 'ProductForm' component
           next();
         },
+      },
+      {
+        path: 'categories',
+        name: 'app.categories',
+        component: Categories
       },
       
     ]

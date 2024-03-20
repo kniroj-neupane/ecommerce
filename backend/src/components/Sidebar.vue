@@ -9,7 +9,7 @@
           Dashboard
         </span>
       </router-link>
-      
+      <!-- Products -->
       <router-link :to="{name: 'app.products'}"
                    class="flex items-center p-2 rounded transition-colors hover:bg-black/30">
         <span class="mr-2 text-gray-300">
@@ -20,7 +20,16 @@
         </span>
       </router-link>
      
-     
+     <!-- Categories -->
+     <router-link :to="{name: 'app.categories'}"
+                   class="flex items-center p-2 rounded transition-colors hover:bg-black/30">
+        <span class="mr-2 text-gray-300">
+          <TagIcon class="w-5"/>
+        </span>
+        <span class="text-xs">
+          Categories
+        </span>
+      </router-link>
       
      
     </div>
@@ -28,7 +37,7 @@
   
   <script setup>
     
-    import {HomeIcon, UserGroupIcon, UsersIcon,Bars3Icon} from '@heroicons/vue/24/outline'
+    import {HomeIcon, UserGroupIcon, UsersIcon,Bars3Icon,TagIcon} from '@heroicons/vue/24/outline'
   </script>
   
   <style scoped>

@@ -12,6 +12,16 @@ export const state = {
       page: 1,
       limit: null,
       total: null
+    },
+    categories: {
+      loading: false,
+      data: [],
+      links: [],
+      from: null,
+      to: null,
+      page: 1,
+      limit: null,
+      total: null
     }
   };
   

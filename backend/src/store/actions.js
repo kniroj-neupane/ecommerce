@@ -43,6 +43,7 @@ export function getProducts({commit, state}, {productId,url = null, search = '',
       commit('setProducts', [false])
     })
 }
+
 export function createProduct({commit}, product) {
   if (product.images && product.images.length) {
     const form = new FormData();
@@ -84,4 +85,30 @@ export function deleteProduct({commit},id)
 {
   return axiosClient.delete(`/products/${id}`);
   
+}
+
+// categories
+export function getCategories({commit, state}, {productId,url = null, search = '', per_page, sort_field, sort_direction} = {}) {
+  commit('setCategories', [true])
+  if(productId)
+  url = url || `/products/${productId}`
+  else 
+  url = url ||'/products'
+  const params = {
+    per_page: state.products.limit,
+  }
+  return axiosClient.get(url, {
+    params: {
+      ...params,
+      search, per_page, sort_field, sort_direction
+    }
+  })
+    .then((response) => {
+      console.log("response is " + response)
+      commit('setCategories', [false, response.data])
+
+    })
+    .catch(() => {
+      commit('setCategories', [false])
+    })
 }
