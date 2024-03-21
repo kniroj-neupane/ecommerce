@@ -35,7 +35,7 @@ export function getProducts({commit, state}, {productId,url = null, search = '',
     }
   })
     .then((response) => {
-      console.log("response is " + response)
+      console.log(response.data)
       commit('setProducts', [false, response.data])
 
     })
@@ -59,7 +59,6 @@ export function createProduct({commit}, product) {
 }
 export function updateProduct({commit}, product) {
   const id = product.id
-  console.log(product.id)
   if (product.images && product.images.length) {
     const form = new FormData();
     form.append('id', product.id);
@@ -104,11 +103,26 @@ export function getCategories({commit, state}, {categoryId,url = null, search = 
     }
   })
     .then((response) => {
-      console.log("response is ",response.data)
       commit('setCategories', [false, response.data])
 
     })
     .catch(() => {
       commit('setCategories', [false])
     })
+}
+
+export function createCategory({commit}, category) {
+  if (category.images && category.images.length) {
+    const form = new FormData();
+    form.append('name', category.name);
+    category.images.forEach(im => form.append('images[]', im))
+    form.append('published', category.published ? 1 : 0);
+    category = form;
+  }
+  return axiosClient.post('/categories', category)
+}
+export function deleteCategory({commit},id)
+{
+  return axiosClient.delete(`/categories/${id}`);
+  
 }

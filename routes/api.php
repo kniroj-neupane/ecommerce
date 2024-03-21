@@ -21,5 +21,6 @@ use App\Http\Controllers\Api\CategoryController;
 // });
 Route::post('/logout',[\App\Http\Controllers\Api\AuthController::class,'logout']);
 Route::apiResource('products', ProductController::class);
-Route::apiResource('categories', CategoryController::class);
+Route::apiResource('categories', CategoryController::class)->except('show');
+Route::get('/categories/tree',[CategoryController::class,'getAsTree']);
 Route::post('/login',[\App\Http\Controllers\Api\AuthController::class,'login']);

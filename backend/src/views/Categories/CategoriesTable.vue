@@ -89,7 +89,7 @@
                                 <button :class="[
                                     active ? 'bg-teal-600 text-white' : 'text-gray-900',
                                     'group flex w-full items-center rounded-md px-2 py-2 text-sm',
-                                ]" @click="deleteProduct(category)">
+                                ]" @click="deleteCategory(category)">
                                     <TrashIcon :active="active" class="mr-2 h-5 w-5 text-teal-400" aria-hidden="true" />
                                     Delete
                                 </button>
@@ -122,7 +122,7 @@ const search = ref('');
 const sortDirection = ref('desc');
 const sortField = ref('id');
 import store from "../../store";
-const product = ref({})
+const category = ref({})
 
 const categories = computed(() => store.state.categories);
 
@@ -154,11 +154,11 @@ function getCategories(url = null) {
     });
 
 }
-function deleteProduct(product) {
+function deleteCategory(category) {
     if (!confirm(`Are you sure you want to delete the product?`)) {
         return
     }
-    store.dispatch('deleteProduct', product.id)
+    store.dispatch('deleteCategory', category.id)
         .then(res => {
             store.dispatch('getCategories')
         })

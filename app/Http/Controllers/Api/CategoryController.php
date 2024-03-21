@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\CategoryTreeResource;
 use Illuminate\Http\Request;
-use App\Models\Category;
+use App\Models\Api\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -51,6 +52,11 @@ class CategoryController extends Controller
          return new CategoryResource($category);
     }
 
+    public function getAsTree()
+    {
+        return Category::getActiveAsTree(CategoryTreeResource::class);
+    }
+
     /**
      * Display the specified resource.
      */
@@ -70,9 +76,10 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return response()->noContent();
     }
 
     private function saveImages($images, $positions, Category $category)

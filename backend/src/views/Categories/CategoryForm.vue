@@ -10,7 +10,7 @@
       <form v-if="!loading" @submit.prevent="onSubmit">
         <div class="grid grid-cols-3">
           <div class="col-span-2 px-4 pt-5 pb-4">
-            <CustomInput class="mb-2" v-model="category.name" label="Category name" :errors="errors['name']"/>
+            <CustomInput class="mb-2" v-model="category.name" label="Category name" />
             <CustomInput type="checkbox" class="mb-2" v-model="category.published" label="Published" :errors="errors['published']"/>
           </div>
           <div class="col-span-1 px-4 pt-5 pb-4">
@@ -51,7 +51,6 @@
   import ImagePreview from "../../components/ImagePreview.vue";
 
   // import the styles
-  import 'vue3-treeselect/dist/vue3-treeselect.css';
   const props = defineProps(['id'])
   const route = useRoute()
   const router = useRouter()
@@ -79,7 +78,7 @@
       store.dispatch('getCategories', {CategoryId: route.params.id})
         .then((response) => {
           loading.value = false;
-          categories.value = categories
+          categories.value = response.data
         })
     }
     else
@@ -110,11 +109,11 @@
           errors.value = err.response.data.errors
         })
     } else {
-      store.dispatch('createProduct', category.value)
+      store.dispatch('createCategory', category.value)
         .then(response => {
           loading.value = false;
           if (response.status === 201) {
-            catefory.value = response.data
+            category.value = response.data
             store.dispatch('getCategories')
             if (close) {
               router.push({name: 'app.categories'})

@@ -8,11 +8,14 @@ use App\Http\Resources\ProductListResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Api\Product;
 use App\Models\ProductImage;
+use App\Models\ProductCategory;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 class ProductController extends Controller
 {
     /**
@@ -55,8 +58,14 @@ class ProductController extends Controller
         $product = Product::create($data);
 
         $this->saveImages($images, $imagePositions, $product);
+        $productCategory = $this->saveCategories($categories,$product);
 
-        return new ProductResource($product);
+        // return new ProductResource($product);
+        return response()->json([
+            'product' => new ProductResource($product),
+            'categoryIds' => $categories,
+            // 'productCategory' => $productCategory,
+        ]);
     }
 
     /**
@@ -65,9 +74,14 @@ class ProductController extends Controller
      * @param \App\Models\Product $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show($id)
     {
-        return new ProductResource($product);
+        $perPage = request('per_page', 10);
+        $query = Product::query()
+            ->where('id', $id)
+            ->paginate($perPage);
+
+        return ProductListResource::collection($query);
     }
 
     /**
@@ -110,9 +124,9 @@ class ProductController extends Controller
         return response()->noContent();
     }
 
-   
 
-    
+
+
     private function saveImages($images, $positions, Product $product)
     {
         foreach ($positions as $id => $position) {
@@ -126,7 +140,7 @@ class ProductController extends Controller
             if (!Storage::exists($path)) {
                 Storage::makeDirectory($path);
             }
-            $name = Str::random().'.'.$image->getClientOriginalExtension();
+            $name = Str::random() . '.' . $image->getClientOriginalExtension();
             if (!Storage::putFileAs('public/' . $path, $image, $name)) {
                 throw new \Exception("Unable to save file \"{$image->getClientOriginalName()}\"");
             }
@@ -158,4 +172,12 @@ class ProductController extends Controller
             $image->delete();
         }
     }
+
+    private function saveCategories($categoryIds, Product $product)
+{
+    ProductCategory::where('product_id', $product->id)->delete();
+        $data = array_map(fn($id) => (['category_id' => $id, 'product_id' => $product->id]), $categoryIds);
+
+        ProductCategory::insert($data);
+}
 }

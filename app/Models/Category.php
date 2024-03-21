@@ -43,50 +43,50 @@ class Category extends Model
     }
 
 
-    // public function products()
-    // {
-    //     return $this->belongsToMany(Product::class); // product_category
-    // }
+    public function products()
+{
+    return $this->belongsToMany(Product::class, 'product_categories');
+}
 
-    // public static function getActiveAsTree($resourceClassName = null)
-    // {
-    //     $categories = Category::where('active', true)->orderBy('parent_id')->get();
-    //     return self::buildCategoryTree($categories, null, $resourceClassName);
-    // }
+    public static function getActiveAsTree($resourceClassName = null)
+    {
+        $categories = Category::where('active', true)->orderBy('id')->get();
+        return self::buildCategoryTree($categories, null, $resourceClassName);
+    }
 
-    // public static function getAllChildrenByParent(Category $category)
-    // {
-    //     $categories = Category::where('active', true)->orderBy('parent_id')->get();
-    //     $result[] = $category;
-    //     self::getCategoriesArray($categories, $category->id, $result);
+    public static function getAllChildrenByParent(Category $category)
+    {
+        $categories = Category::where('active', true)->orderBy('parent_id')->get();
+        $result[] = $category;
+        self::getCategoriesArray($categories, $category->id, $result);
 
-    //     return $result;
-    // }
+        return $result;
+    }
 
-    // private static function buildCategoryTree($categories, $parentId = null, $resourceClassName = null)
-    // {
-    //     $categoryTree = [];
+    private static function buildCategoryTree($categories, $parentId = null, $resourceClassName = null)
+    {
+        $categoryTree = [];
 
-    //     foreach ($categories as $category) {
-    //         if ($category->parent_id === $parentId) {
-    //             $children = self::buildCategoryTree($categories, $category->id, $resourceClassName);
-    //             if ($children) {
-    //                 $category->setAttribute('children', $children);
-    //             }
-    //             $categoryTree[] = $resourceClassName ? new $resourceClassName($category) : $category;
-    //         }
-    //     }
+        foreach ($categories as $category) {
+            if ($category->parent_id === $parentId) {
+                $children = self::buildCategoryTree($categories, $category->id, $resourceClassName);
+                if ($children) {
+                    $category->setAttribute('children', $children);
+                }
+                $categoryTree[] = $resourceClassName ? new $resourceClassName($category) : $category;
+            }
+        }
 
-    //     return $categoryTree;
-    // }
+        return $categoryTree;
+    }
 
-    // private static function getCategoriesArray($categories, $parentId, &$result)
-    // {
-    //     foreach ($categories as $category) {
-    //         if ($category->parent_id === $parentId) {
-    //             $result[] = $category;
-    //             self::getCategoriesArray($categories, $category->id, $result);
-    //         }
-    //     }
-    // }
+    private static function getCategoriesArray($categories, $parentId, &$result)
+    {
+        foreach ($categories as $category) {
+            if ($category->parent_id === $parentId) {
+                $result[] = $category;
+                self::getCategoriesArray($categories, $category->id, $result);
+            }
+        }
+    }
 }
