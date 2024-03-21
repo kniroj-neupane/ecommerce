@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-white dark:bg-gray-800">
-    <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+  <div class="bg-white dark:bg-gray-800 sm:rounded-lg">
+    <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
       <h2 class="sr-only">Products</h2>
       <div class="flex items-center justify-center">
         <h2 v-if="message" :class="{ 'text-teal-600': success, 'text-red-600': !success }">

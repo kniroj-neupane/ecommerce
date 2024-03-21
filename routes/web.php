@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -36,11 +38,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/cart',[CartController::class,'index'])->name('cart');
-    Route::get('/cart/get',[CartController::class,'get']);
     Route::get('/cart/count',[CartController::class,'count']);
     Route::post('/cart',[CartController::class,'store']);
     Route::delete('/cart/{id}',[CartController::class,'destroy']);
     Route::get('/checkout',[CheckoutController::class,'index'])->name('checkout');
+    Route::post('/payment',[PaymentController::class,'esewaPayment']);
+    Route::get('/categories',[CategoryController::class,'index']);
 });
 
 

@@ -12,6 +12,14 @@ export const state = {
     cartItems: {
       data: [],
       loading: false,
+    },
+    order:{
+      data: [],
+      total: 0,
+    },
+    categories:{
+      data: [],
+      loading: false,
     }
   };
   
